@@ -1,0 +1,41 @@
+<mat-tab-group>
+  <mat-tab label="Your Products"> 
+      <mat-card *ngFor="let product of ProductList" style="padding-bottom:2em" class="carousel-item">
+          <h2><span style="font-weight:lighter; opacity: 0.5;"> #{{product.Product_Id}}) </span> {{product.Product_name}}</h2>
+          <button mat-raised-button color="warn" style="float:right" (click)="deleteProduct(product.Product_Id)"><i class="material-icons">delete_sweep</i></button>
+          <p>{{product.Product_description}}</p>
+          <p style="color: greenyellow;">Base price :{{product.Base_price  | currency:'INR'}}</p>
+      </mat-card>
+  </mat-tab>
+  <mat-tab label="AddProduct"> 
+      <mat-card>
+
+          <form [formGroup]="Products">
+            <ng-template matStepLabel> Enter ProductDetails </ng-template>
+            <div class="row">
+              <div class="col">
+                 <mat-form-field class="full-width">
+                    <input matInput placeholder=" Enter Product Name" formControlName="Product_name" required>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                  <mat-form-field class="full-width">
+                      <input matInput placeholder="Enter Product Description" formControlName="Product_description" required>
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Enter product base price " formControlName="Base_price" required>
+                    </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button color="warn" (click)="addProduct(Products)"> Enroll </button>
+          </form>
+        </mat-card>  
+  </mat-tab>
+  <!-- <mat-tab label="Third"> Content 3 </mat-tab> -->
+</mat-tab-group>

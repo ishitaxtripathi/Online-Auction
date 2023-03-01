@@ -1,0 +1,66 @@
+<mat-tab-group mat-align-tabs="center">
+  <mat-tab label="Your Auctions">
+    <mat-card *ngFor="let auction_details of Auctions">
+      <h2><span style="font-weight:lighter; opacity: 0.5;">#{{auction_details.Auction_Id}} )</span> {{auction_details.Title}}</h2>
+      <p>{{auction_details.Auction_description}}</p>
+      <p> <b>FROM</b> {{auction_details.Start_time|date:'short'}} <b>- TO</b> {{auction_details.End_time|date:'short'}} </p>
+      <p style="text-align:right">-- <b>At </b> {{auction_details.Created_at | date:'short'}} </p>
+      <mat-card-actions>
+          <button mat-raised-button (click)="openBottomSheet(auction_details.Auction_Id)" color="accent">     Add Products </button>
+        <button mat-raised-button color="primary" (click)="startAuction(auction_details.Auction_Id)" [disabled]="!!(auction_details.hasStarted || auction_details.hasEnded)">Start</button>
+        <button mat-raised-button color="accent" style="float:right" (click)="endAuction(auction_details.Auction_Id)"  [disabled]="!(auction_details.hasStarted && !auction_details.hasEnded)" >End</button>
+    </mat-card-actions>
+    
+    <mat-divider></mat-divider>
+    
+    </mat-card>
+    
+  </mat-tab>
+  <mat-tab label="Create Auction">
+    <mat-card>
+      <form [formGroup]="Auction">
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Title" formControlName="Title" required>
+          </mat-form-field>
+          <mat-error *ngIf="Auction.controls['Title'].hasError('required')" class="small">
+              Title is <strong>required</strong>
+          </mat-error>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+            <mat-form-field class="full-width">
+                <textarea matInput rows="3" placeholder="Description" formControlName="Auction_description"></textarea>
+            </mat-form-field>
+            <mat-error *ngIf="Auction.controls['Auction_description'].hasError('required')" class="small">
+                Description is <strong>required</strong>
+            </mat-error>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col">
+              <mat-form-field class="full-width" >
+                <input type="datetime-local" matInput placeholder="Enter Start Time" formControlName="Start_time">
+              </mat-form-field>
+              <mat-error *ngIf="Auction.controls['Start_time'].hasError('required')" class="small">
+                  Start_time is <strong>required</strong>
+              </mat-error>
+          </div>
+          <div class="col">
+              <mat-form-field class="full-width">          
+                <input type="datetime-local" matInput placeholder="Enter End Time" formControlName="End_time">
+              </mat-form-field>
+              <mat-error *ngIf="Auction.controls['End_time'].hasError('required')" class="small">
+                  End_time is <strong>required</strong>
+              </mat-error>  
+          </div>
+        </div>
+      <div>
+        <button mat-raised-button color="accent" (click)="addAuctions(Auction)">Next</button>
+      </div>
+    </form>
+  </mat-card>
+  </mat-tab>
+</mat-tab-group>
